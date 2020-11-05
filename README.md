@@ -1,5 +1,7 @@
 # Docker Cleanup
 
+[![Build Status](https://travis-ci.com/digirati-co-uk/docker-cleanup.svg?branch=master)](https://travis-ci.com/digirati-co-uk/docker-cleanup)
+
 When deployed, this image will periodically remove stopped containers,
 images without at least one container associated with them, and unused
 local volumes.
