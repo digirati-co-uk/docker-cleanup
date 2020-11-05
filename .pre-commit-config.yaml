@@ -1,0 +1,19 @@
+- repo: git://github.com/pre-commit/pre-commit-hooks
+  rev: v3.3.0
+  hooks:
+    - id: check-case-conflict
+    - id: check-merge-conflict
+    - id: detect-private-key
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+    - id: detect-private-key
+
+- repo: https://github.com/jumanjihouse/pre-commit-hooks
+  rev: 2.1.4
+  hooks:
+    - id: shellcheck
+
+- repo: https://github.com/iamthefij/docker-pre-commit
+  rev: v2.0.0
+  hooks:
+    - id: hadolint

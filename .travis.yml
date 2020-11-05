@@ -1,0 +1,24 @@
+language: python
+python:
+  - "3.8"
+
+sudo: 'required'
+
+services:
+  - 'docker'
+
+before_install:
+  - sudo apt-get update && sudo apt-get -y install shellcheck
+
+install:
+  - pip install pre-commit
+
+script:
+  - 'make lint'
+  - 'make image'
+
+after_success:
+  - if [[ "$TRAVIS_BRANCH" == "master" ]] && [[ "$TRAVIS_PULL_REQUEST" = "false" ]]; then
+      docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD;
+      make push-image;
+    fi
