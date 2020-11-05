@@ -27,6 +27,8 @@ correct before running.**
 
 ## Deployment
 
+### Docker
+
 ```
 docker run \
     --env CLEAN_DELAY=60 \
@@ -35,6 +37,12 @@ docker run \
     --env CLEAN_VOLUMES=true \
     --volume /var/run/docker.sock:/var/run/docker.sock \
     digirati/docker-cleanup:latest
+```
+
+### Kubernetes
+
+```
+kubectl apply -f https://raw.githubusercontent.com/digirati-co-uk/docker-cleanup/master/contrib/k8s-daemonset.yaml
 ```
 
 # License

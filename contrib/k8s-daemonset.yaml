@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemonset-docker-cleanup
+spec:
+  selector:
+    matchLabels:
+      app: app-docker-cleanup
+  template:
+    metadata:
+      labels:
+        app: app-docker-cleanup
+    spec:
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+      containers:
+        - image: digirati/docker-cleanup:latest
+          name: docker-cleanup
+          env:
+            - name: CLEAN_DELAY
+              value: "86400" # 24 hours
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: false

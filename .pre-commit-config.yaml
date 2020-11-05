@@ -7,6 +7,7 @@
     - id: end-of-file-fixer
     - id: trailing-whitespace
     - id: detect-private-key
+    - id: check-yaml
 
 - repo: https://github.com/jumanjihouse/pre-commit-hooks
   rev: 2.1.4
