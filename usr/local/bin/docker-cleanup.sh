@@ -37,6 +37,11 @@ process_env_vars() {
   fi
   log_info "Got [CLEAN_DELAY] = ${CLEAN_DELAY}"
 
+  if [ "${CLEAN_CONTAINERS}" != "false" ]; then
+    CLEAN_CONTAINERS="true"
+  fi
+  log_info "Got [CLEAN_CONTAINERS] = ${CLEAN_CONTAINERS}"
+
   if [ "${CLEAN_IMAGES}" != "false" ]; then
     CLEAN_IMAGES="true"
   fi
@@ -46,17 +51,17 @@ process_env_vars() {
     CLEAN_VOLUMES="true"
   fi
   log_info "Got [CLEAN_VOLUMES] = ${CLEAN_VOLUMES}"
-
-  if [ "${CLEAN_CONTAINERS}" != "false" ]; then
-    CLEAN_CONTAINERS="true"
-  fi
-  log_info "Got [CLEAN_CONTAINERS] = ${CLEAN_CONTAINERS}"
 }
 
 print_usage() {
   log_info "Executing docker-cleanup.sh..."
   log_info "$1 Docker usage:"
   exec_cmd "docker system df --verbose"
+}
+
+prune_containers() {
+  log_info "Removing all stopped containers..."
+  exec_cmd "docker container prune --force"
 }
 
 prune_images() {
@@ -67,11 +72,6 @@ prune_images() {
 prune_volumes() {
   log_info "Removing all unused local volumes..."
   exec_cmd "docker volume prune --force"
-}
-
-prune_containers() {
-  log_info "Removing all stopped containers..."
-  #exec_cmd "docker container prune --force"
 }
 
 process_env_vars
@@ -85,16 +85,16 @@ trap "{ log_info \"Detected SIGTERM, exiting...\"; exit 0; }" SIGTERM
 while true; do
   print_usage "Before"
 
+  if [ "${CLEAN_CONTAINERS}" == "true" ]; then
+    prune_containers
+  fi
+
   if [ "${CLEAN_IMAGES}" == "true" ]; then
     prune_images
   fi
 
   if [ "${CLEAN_VOLUMES}" == "true" ]; then
     prune_volumes
-  fi
-
-  if [ "${CLEAN_CONTAINERS}" == "true" ]; then
-    prune_containers
   fi
 
   print_usage "After"
