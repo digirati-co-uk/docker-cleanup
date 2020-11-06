@@ -51,12 +51,20 @@ process_env_vars() {
     CLEAN_VOLUMES="true"
   fi
   log_info "Got [CLEAN_VOLUMES] = ${CLEAN_VOLUMES}"
+
+  if [ "${VERBOSE_USAGE}" != "false" ]; then
+    VERBOSE_USAGE="true"
+  fi
+  log_info "Got [VERBOSE_USAGE] = ${VERBOSE_USAGE}"
 }
 
 print_usage() {
-  log_info "Executing docker-cleanup.sh..."
-  log_info "$1 Docker usage:"
-  exec_cmd "docker system df --verbose"
+  log_info "${1} usage:"
+  if [ "${VERBOSE_USAGE}" == "true" ]; then
+    exec_cmd "docker system df --verbose"
+  else
+    exec_cmd "docker system df"
+  fi
 }
 
 prune_containers() {
