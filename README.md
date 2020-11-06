@@ -24,6 +24,7 @@ correct before running.**
 | `CLEAN_CONTAINERS` | If set to anything other than `false`, then stopped containers will be deleted.                                         | `true`        |
 | `CLEAN_IMAGES`     | If set to anything other than `false`, then images without at least one container associated with them will be deleted. | `true`        |
 | `CLEAN_VOLUMES`    | If set to anything other than `false`, then unused local volumes will be deleted.                                       | `true`        |
+| `VERBOSE_USAGE`    | If set to anything other than `false`, then verbose Docker use information will be printed.                             | `false`       |
 
 ## Deployment
 
@@ -35,6 +36,7 @@ docker run \
     --env CLEAN_CONTAINERS=true \
     --env CLEAN_IMAGES=true \
     --env CLEAN_VOLUMES=true \
+    --env VERBOSE_USAGE=false \
     --volume /var/run/docker.sock:/var/run/docker.sock \
     digirati/docker-cleanup:latest
 ```
